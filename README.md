@@ -14,7 +14,12 @@ source ./setup_anaconda_on_grace.sh
 Re-login and enjoy Python
 
 
-### Option B: Jupyter with remote kernel
+
+
+
+
+
+### Option B: Jupyter in PC's browser connected to a remote kernel on Grace
 #### (Grace) install ipython, ipykernel
 The easiest way is to follow the instructions above and use Anaconda
 
