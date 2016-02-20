@@ -15,10 +15,6 @@ Re-login and enjoy Python
 
 
 
-
-
-
-
 ### Option B: Jupyter in PC's browser connected to a remote kernel on Grace
 #### (Grace) install ipython, ipykernel
 The easiest way is to follow the instructions above and use Anaconda
@@ -26,7 +22,7 @@ The easiest way is to follow the instructions above and use Anaconda
 #### (local PC) Enable passwordless ssh login to Grace
 ```
 # Linux
-ssh keygen
+ssh-keygen
 ssh-copy-id -i ~/.ssh/id_rsa.pub abc12xyz@grace.uea.ac.uk
 ```
 Windows: follow putty instructions
