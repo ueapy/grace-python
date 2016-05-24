@@ -25,6 +25,7 @@ LIBEXPAT_SOURCE=/lib64/libexpat.so.0.5.0 # necessary for cf_units
 PCKGS="
 - basemap
 - cartopy
+- geos
 - gdal
 - h5py
 - ipython
@@ -38,7 +39,7 @@ PCKGS="
 - xray
 "
 CHANNELS="
-- scitools"
+- conda-forge"
 
 #############################################################
 
@@ -126,36 +127,43 @@ You may wish to edit your .bashrc or load $PYENVNAME environment manually:
 source $LOAD_SCRIPT
 "
 else
-    if [ -f $BASH_RC ]; then
+    # Check if the line is already in .bashrc
+    if grep -Fxq "source $LOAD_SCRIPT" $BASH_RC; then
         echo "
+The line 'source $LOAD_SCRIPT' is already in $BASH_RC
+"
+    else
+
+        if [ -f $BASH_RC ]; then
+            echo "
 Prepending source $LOAD_SCRIPT in $BASH_RC
 A backup will be made to: ${BASH_RC}-backup
 "
-        cp $BASH_RC ${BASH_RC}-backup
-    else
-        echo "
+            cp $BASH_RC ${BASH_RC}-backup
+        else
+            echo "
 Prepending source $LOAD_SCRIPT in
 newly created $BASH_RC"
-    fi
-    echo "
+        fi
+        echo "
 WARNING:
 For this change to become active, you have to open a new terminal.
 "
-    LAST_LINE=$(tail -1 .bashrc)
-    if [[ "$LAST_LINE" == *"LOGIN_INVOKE=0"* ]]; then
-        head -n -1 $BASH_RC > temp_bashrc.txt ; mv temp_bashrc.txt $BASH_RC 
-        echo -n "
+        LAST_LINE=$(tail -1 .bashrc)
+        if [[ "$LAST_LINE" == *"LOGIN_INVOKE=0"* ]]; then
+            head -n -1 $BASH_RC > temp_bashrc.txt ; mv temp_bashrc.txt $BASH_RC 
+            echo -n "
 # loads $PYENVNAME Anaconda environment automatically
 source $LOAD_SCRIPT" >> $BASH_RC
-        echo "" >> $BASH_RC
-        echo $LAST_LINE >> $BASH_RC
-    else
-        echo -n "
+            echo "" >> $BASH_RC
+            echo $LAST_LINE >> $BASH_RC
+        else
+            echo -n "
 # loads $PYENVNAME Anaconda environment automatically
 source $LOAD_SCRIPT" >> $BASH_RC
+        fi
     fi
 fi
-
 module unload $ANACONDA
 
 echo 'Done.'
