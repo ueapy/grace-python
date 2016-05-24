@@ -93,16 +93,17 @@ conda env create -f environment_$PYENVNAME.yml
 
 #############################################################
 echo "Creating additional library links..."
-if [[ $LIBEXPAT_SOURCE != "" ]]; then
+LIBEXPAT_TARGET=$CONDA_ENVS/$PYENVNAME/lib/libexpat.so.1
+if [[ ($LIBEXPAT_SOURCE != "") && (! -f $LIBEXPAT_TARGET) ]]; then
     # Required for cf_units (iris dependancy)
-    ln -s $LIBEXPAT_SOURCE $CONDA_ENVS/$PYENVNAME/lib/libexpat.so.1
+    ln -s $LIBEXPAT_SOURCE $LIBEXPAT_TARGET 
 fi
 
 #############################################################
 echo "#!/bin/bash" > $LOAD_SCRIPT
-if [[ "ONLY_XINTERACTIVE" == true ]]; then
+if [[ "$ONLY_XINTERACTIVE" == true ]]; then
     echo "
-if [[ $HOSTNAME == *cn* ]]; then" >> $LOAD_SCRIPT
+if [[ \$HOSTNAME == *cn* ]]; then" >> $LOAD_SCRIPT
 fi
 echo "
 module load $ADD_GCC_MODULE
@@ -113,7 +114,7 @@ unset PYTHONHOME
 unset PYTHONPATH
 " >> $LOAD_SCRIPT
 fi
-if [[ "ONLY_XINTERACTIVE" == true ]]; then
+if [[ "$ONLY_XINTERACTIVE" == true ]]; then
     echo "
 else
 echo '$PYENVNAME is activated only on XInteractive nodes'
