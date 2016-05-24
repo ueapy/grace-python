@@ -31,7 +31,6 @@ PCKGS="
 - h5py
 - ipython
 - ipykernel
-- ipywidgets
 - iris
 - matplotlib
 - numpy
