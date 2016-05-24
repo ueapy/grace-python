@@ -14,6 +14,7 @@
 
 ANACONDA=python/anaconda/2.3.0 # Anaconda module on Grace
 PYVERSION_DEFAULT=3.5
+ONLY_XINTERACTIVE=true # If true, the environment is activated only on Xinteractive node
 UNSET_OLD_PYTHON=true # If true, removes PYTHONHOME and PYTHONPATH
 LOAD_SCRIPT=load_anaconda_env # Name of the auto-loading script (created automatically)
 
@@ -98,14 +99,25 @@ if [[ $LIBEXPAT_SOURCE != "" ]]; then
 fi
 
 #############################################################
-echo "#!/bin/bash
+echo "#!/bin/bash" > $LOAD_SCRIPT
+if [[ "ONLY_XINTERACTIVE" == true ]]; then
+    echo "
+if [[ $HOSTNAME == *cn* ]]; then" >> $LOAD_SCRIPT
+fi
+echo "
 module load $ADD_GCC_MODULE
-. $CONDA_ENVS/$PYENVNAME/bin/activate $PYENVNAME" > $LOAD_SCRIPT
+. $CONDA_ENVS/$PYENVNAME/bin/activate $PYENVNAME" >> $LOAD_SCRIPT
 if [[ "$UNSET_OLD_PYTHON" == true ]]; then
 	echo "
 unset PYTHONHOME
 unset PYTHONPATH
 " >> $LOAD_SCRIPT
+fi
+if [[ "ONLY_XINTERACTIVE" == true ]]; then
+    echo "
+else
+echo '$PYENVNAME is activated only on XInteractive nodes'
+fi" >> $LOAD_SCRIPT
 fi
 
 #############################################################
