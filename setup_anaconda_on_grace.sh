@@ -115,8 +115,6 @@ unset PYTHONPATH
 fi
 if [[ "$ONLY_XINTERACTIVE" == true ]]; then
     echo "
-else
-echo '$PYENVNAME is activated only on XInteractive nodes'
 fi" >> $LOAD_SCRIPT
 fi
 
