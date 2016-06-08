@@ -25,21 +25,14 @@ LIBEXPAT_SOURCE=/lib64/libexpat.so.0.5.0 # necessary for cf_units
 
 PCKGS="
 - basemap
-- cartopy
 - geos
 - gdal
 - h5py
 - ipython
-- ipykernel
 - iris
-- matplotlib
-- numpy
-- pandas
-- scipy
-- xray
 "
 CHANNELS="
-- conda-forge"
+- scitools"
 
 #############################################################
 
@@ -95,6 +88,7 @@ echo "Creating additional library links..."
 LIBEXPAT_TARGET=$CONDA_ENVS/$PYENVNAME/lib/libexpat.so.1
 if [[ ($LIBEXPAT_SOURCE != "") && (! -f $LIBEXPAT_TARGET) ]]; then
     # Required for cf_units (iris dependancy)
+    echo "ln -s $LIBEXPAT_SOURCE $LIBEXPAT_TARGET"
     ln -s $LIBEXPAT_SOURCE $LIBEXPAT_TARGET 
 fi
 
